@@ -39,15 +39,13 @@ func main() {
 	    fmt.Println(scanner.Text())
 	}*/
 
+	correctAnswers := 0
 	for i, rec := range records {
 		fmt.Printf("%d. What is the answer to %s?\n", i+1, rec[0])
 		var input string
 		fmt.Scanln(&input)
-		//var correctAnswers int
-
-		correctAnswers := 0
 		if input == rec[1] {
-			correctAnswers = correctAnswers + 1
+			correctAnswers++
 			fmt.Println("you got", correctAnswers, "correct")
 
 		}
