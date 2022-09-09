@@ -6,8 +6,8 @@ import (
 	"io"
 	"log"
 	"os"
-//	"bufio"
-//	"sync"
+	//	"bufio"
+	//	"sync"
 )
 
 //var wg = &sync.WaitGroup{}
@@ -21,7 +21,7 @@ func main() {
 	// always close the file after//
 	defer f.Close()
 	csvReader := csv.NewReader(f)
-	var records [][]string 
+	var records [][]string
 	for {
 		rec, err := csvReader.Read()
 		if err == io.EOF {
@@ -31,21 +31,30 @@ func main() {
 			return
 		}
 		records = append(records, rec)
-        }
+	}
 
-        /*fmt.Println("Now Scanning:")
+	/*fmt.Println("Now Scanning:")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 	    fmt.Println(scanner.Text())
 	}*/
 
-	for i, rec  := range records {
-                fmt.Printf("%d. What is the answer to %s?\n", i+1, rec[0])
+	for i, rec := range records {
+		fmt.Printf("%d. What is the answer to %s?\n", i+1, rec[0])
+		var input string
+		fmt.Scanln(&input)
+		//var correctAnswers int
+
+		correctAnswers := 0
+		if input == rec[1] {
+			correctAnswers = correctAnswers + 1
+			fmt.Println("you got", correctAnswers, "correct")
+
+		}
+
 	}
 
 }
-        
-
 
 /*
 	// read the csv values//
@@ -66,4 +75,3 @@ func printRecords( records chan []string ) {
 	fmt.Println("finished print_records")
 	defer wg.Done()
 */ //}
-
