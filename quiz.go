@@ -46,5 +46,7 @@ func main() {
 	}
 
 	fmt.Println("you got", correctAnswers, "correct")
+	wrongAnswers := (len(records)) - correctAnswers
+	fmt.Println("you got", wrongAnswers, "wrong")
 }
 
