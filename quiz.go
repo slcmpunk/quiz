@@ -6,11 +6,10 @@ import (
 	"io"
 	"log"
 	"os"
-	//	"bufio"
-	//	"sync"
+	"time"
 )
 
-func main() {
+func quizRun() string {
 	//open the file//
 	f, err := os.Open("problems.csv")
 	if err != nil {
@@ -27,11 +26,9 @@ func main() {
 			break
 		} else if err != nil {
 			fmt.Println("An error occured ::", err)
-			return
 		}
 		records = append(records, rec)
 	}
-
 
 	correctAnswers := 0
 	for i, rec := range records {
@@ -47,6 +44,21 @@ func main() {
 
 	wrongAnswers := (len(records)) - correctAnswers
 	totalQuestions := wrongAnswers + correctAnswers
-	fmt.Println("you got", correctAnswers, "correct out of", totalQuestions, "total questions")
-//	fmt.Println("you got", wrongAnswers, "wrong")
+	fmt.Println("You got", correctAnswers, "correct out of", totalQuestions, "total questions")
+	return "Great job"
+}
+func main() {
+	currentChannel := make(chan string, 1)
+
+	go func() {
+		text := quizRun()
+		currentChannel <- text
+	}()
+
+	select {
+	case res := <-currentChannel:
+		fmt.Println(res)
+	case <-time.After(30 * time.Second):
+		fmt.Println("You ran out of time! :(")
+	}
 }
