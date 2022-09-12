@@ -49,6 +49,8 @@ func quizRun() string {
 	return "Great job"
 }
 func main() {
+	fmt.Println("Beginning quiz, press enter to start")
+	fmt.Scanln()
 	currentChannel := make(chan string, 1)
 
 	timeLimit := flag.Duration("timeout", 30, "Define a time limit in ns")
