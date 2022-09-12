@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -50,6 +51,11 @@ func quizRun() string {
 func main() {
 	currentChannel := make(chan string, 1)
 
+	timeLimit := flag.Duration("timeout", 30, "Define a time limit in ns")
+	flag.Parse()
+	if *timeLimit < time.Duration(0) {
+		*timeLimit = time.Duration(30)
+		}
 	go func() {
 		text := quizRun()
 		currentChannel <- text
@@ -58,7 +64,7 @@ func main() {
 	select {
 	case res := <-currentChannel:
 		fmt.Println(res)
-	case <-time.After(30 * time.Second):
+	case <-time.After(*timeLimit * time.Second):
 		fmt.Println("You ran out of time! :(")
 	}
 }
